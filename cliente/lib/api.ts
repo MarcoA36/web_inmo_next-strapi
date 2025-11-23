@@ -1,5 +1,5 @@
-export const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
-// export const STRAPI_URL = "https://giving-pleasure-c5847554d0.strapiapp.com";
+// export const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
+export const STRAPI_URL = "https://giving-pleasure-c5847554d0.strapiapp.com";
 
 export async function fetchFromStrapi(path: string) {
   const url = `${STRAPI_URL}${path}`;
