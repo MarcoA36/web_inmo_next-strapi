@@ -501,7 +501,7 @@ export interface ApiPropertyProperty extends Struct.CollectionTypeSchema {
   };
   attributes: {
     address: Schema.Attribute.String;
-    are: Schema.Attribute.Integer;
+    area: Schema.Attribute.Integer;
     bathrooms: Schema.Attribute.Integer;
     bedrooms: Schema.Attribute.Integer;
     city: Schema.Attribute.String;

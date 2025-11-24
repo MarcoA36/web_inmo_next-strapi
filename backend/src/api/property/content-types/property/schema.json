@@ -53,7 +53,7 @@
     "bathrooms": {
       "type": "integer"
     },
-    "are": {
+    "area": {
       "type": "integer"
     }
   }
