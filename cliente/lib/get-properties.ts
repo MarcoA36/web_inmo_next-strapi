@@ -2,7 +2,7 @@ import { fetchFromStrapi, STRAPI_URL } from "./api";
 import { Property } from "@/types/property";
 
 export async function getProperties(): Promise<Property[]> {
-  const data = await fetchFromStrapi("/properties?populate=images");
+  const data = await fetchFromStrapi("/api/properties?populate=images");
 console.log("data properties: ", data)
   return data.data.map((p: any) => {
     const attributes = p.attributes || p;
