@@ -14,6 +14,7 @@ interface PropertyCardProps {
 }
 
 export function PropertyCard({ id, image, type, address, city, price, description }: PropertyCardProps) {
+  console.log("image: ", image)
   return (
     <Card className="overflow-hidden group hover:shadow-xl transition-all duration-300 border-border/50">
       {/* 🔥 Ahora usa el ID */}
