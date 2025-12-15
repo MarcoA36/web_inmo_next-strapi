@@ -20,7 +20,9 @@ import { fetchFromStrapi, STRAPI_URL } from "./api";
 export async function getPropertyById(id: string | number) {
   console.log("getPropertyById():", id);
 
-  const path = `/api/properties?filters[id][$eq]=${id}&populate=*`;
+  // const path = `/api/properties?filters[id][$eq]=${id}&populate=*`;
+  const path = `/api/properties?filters[id][$eq]=${id}&populate[images][fields][0]=url`;
+
 
   console.log("🔗 URL generada:", `${STRAPI_URL}${path}`);
 
