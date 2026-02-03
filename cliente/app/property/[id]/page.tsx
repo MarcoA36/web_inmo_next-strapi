@@ -8,23 +8,19 @@ import { ContactForm } from "@/components/contact-form";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { Footer } from "@/components/footer";
 import { getPropertyById } from "@/lib/get-property";
-import { STRAPI_URL } from "@/lib/api";
 
-
-export default async function PropertyDetailPage({ params }: { params: { id: string } }) {
+export default async function PropertyDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const id = params.id;
 
-  const response = await getPropertyById(id);
+  const property = await getPropertyById(id);
 
-  if (!response || response.data.length === 0) {
+  if (!property) {
     notFound();
   }
-
-  const property = response.data[0];
-
-  const imageUrls = property.images.map((img: any) =>
-    img.url.startsWith("http") ? img.url : `${STRAPI_URL}${img.url}`
-  );
 
   return (
     <main className="min-h-screen">
@@ -32,7 +28,6 @@ export default async function PropertyDetailPage({ params }: { params: { id: str
 
       <div className="pt-24 pb-16 sm:pt-28 sm:pb-20 bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-
           <Link href="/#propiedades">
             <Button variant="ghost" className="mb-6 -ml-4 hover:bg-muted">
               <ArrowLeft className="h-4 w-4 mr-2" />
@@ -42,7 +37,10 @@ export default async function PropertyDetailPage({ params }: { params: { id: str
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
             <div className="lg:col-span-2 space-y-8">
-              <PropertyCarousel images={imageUrls} alt={`Propiedad en ${property.city}`} />
+              <PropertyCarousel
+                images={property.images}
+                alt={`Propiedad en ${property.city}`}
+              />
 
               <div>
                 <div className="flex items-center gap-3 mb-4">
@@ -50,41 +48,46 @@ export default async function PropertyDetailPage({ params }: { params: { id: str
                     {property.type}
                   </span>
                   <span className="text-3xl sm:text-4xl font-serif font-bold text-primary">
-                    $ {property.price}
+                   $ {property.price}
                   </span>
                 </div>
 
                 <div className="flex items-start gap-2 mb-6">
                   <MapPin className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h1 className="text-2xl sm:text-3xl font-serif font-bold">{property.address}</h1>
-                    <p className="text-lg text-muted-foreground">{property.city}</p>
+                    <h1 className="text-2xl sm:text-3xl font-serif font-bold">
+                      {property.address}
+                    </h1>
+                    <p className="text-lg text-muted-foreground">
+                      {property.city}
+                    </p>
                   </div>
                 </div>
 
                 <div className="flex flex-wrap gap-6 py-6 border-y border-border">
                   <div className="flex items-center gap-2">
                     <Bed className="h-5 w-5 text-primary" />
-                    <span>{property.bedrooms} Habitaciones</span>
+                    <span>{property.bedrooms || 0} Habitaciones</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Bath className="h-5 w-5 text-primary" />
-                    <span>{property.bathrooms} Baños</span>
+                    <span>{property.bathrooms || 0} Baños</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Maximize className="h-5 w-5 text-primary" />
-                    <span>{property.area}</span>
+                    <span>{property.area || "N/A"}</span>
                   </div>
                 </div>
               </div>
 
               <div>
-                <h2 className="text-2xl font-serif font-bold mb-4">Descripción</h2>
-                <p className="text-base text-muted-foreground leading-relaxed">
-                  {property.description
-                    ?.map((p: any) => p.children?.map((c: any) => c.text).join(" "))
-                    .join("\n")}
-                </p>
+                <h2 className="text-2xl font-serif font-bold mb-4">
+                  Descripción
+                </h2>
+                <div
+                  className="text-base text-muted-foreground leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: property.description }}
+                />
               </div>
             </div>
 
@@ -94,13 +97,17 @@ export default async function PropertyDetailPage({ params }: { params: { id: str
                   ¿Interesado en esta propiedad?
                 </h3>
 
-                <Button className="w-full bg-primary hover:bg-primary/90" size="lg" asChild>
+                <Button
+                  className="w-full bg-primary hover:bg-primary/90"
+                  size="lg"
+                  asChild
+                >
                   <a href="#contacto">Solicitar información</a>
                 </Button>
 
                 <Button
                   variant="outline"
-                  className="w-full border-primary text-primary hover:bg-primary/5"
+                  className="w-full border-primary text-primary hover:bg-primary/5 mt-2"
                   size="lg"
                   asChild
                 >
